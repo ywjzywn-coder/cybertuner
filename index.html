@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberTuner - 专业级智能吉他调音器</title>
+  <meta name="description" content="CyberTuner 是一款基于 Web Audio API 与高精度自相关算法的吉他调音网页应用。支持标准、降D等多种琴弦预设，提供毫秒级实时音高捕捉、发光拟物仪表盘及谐波频率波形，实现精细调音。">
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Add simple SVG favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎸</text></svg>">
+</head>
+<body>
+
+  <div class="app-container" id="appContainer">
+    <!-- Header Controls -->
+    <header>
+      <div class="logo-section">
+        <div class="logo-icon">🎸</div>
+        <div class="logo-title">
+          <h1>CyberTuner</h1>
+          <span>Pro Audio Tuner</span>
+        </div>
+      </div>
+      
+      <div class="controls-header">
+        <div class="custom-select-wrapper">
+          <select id="tuningSelect" class="tuning-preset-select" aria-label="选择吉他调音预设">
+            <!-- Populated dynamically via JS -->
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Tuner Grid Layout -->
+    <main class="tuner-grid">
+      
+      <!-- Left Column: Analog Needle Gauge Dial & Spectrogram -->
+      <section class="visualizer-card" aria-label="音高指针与频谱区">
+        <div class="dial-container">
+          <canvas id="dialCanvas" aria-label="音高偏离仪表盘"></canvas>
+        </div>
+        
+        <div class="pitch-info-display">
+          <div class="note-bubble-wrapper">
+            <span id="displayNote" class="note-bubble">--</span>
+          </div>
+          <span id="displayCents" class="note-cents">待检测音高</span>
+          <div>
+            <span id="displayFreq" class="frequency-reading">当前频率: -- Hz</span>
+          </div>
+        </div>
+        
+        <!-- Interactive Spectrogram display -->
+        <div class="spectrogram-container">
+          <canvas id="spectrogramCanvas" aria-label="实时波形与谐波频谱"></canvas>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive Guitar Pegboard & Strings selection -->
+      <section class="instrument-card" aria-label="吉他琴头琴弦控制板">
+        <h2 class="card-title-sm">虚拟吉他琴弦 (点击发音)</h2>
+        
+        <div class="guitar-neck-visual">
+          <div id="stringsContainer" class="guitar-strings-board">
+            <!-- Dynamically populated 6 guitar strings with pegs -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Actions Panel -->
+    <footer class="action-bar">
+      <!-- Mode select buttons -->
+      <div class="mode-toggle-group">
+        <button id="autoModeBtn" class="mode-btn active" title="自动匹配弹奏的琴弦">自动锁弦</button>
+        <button id="manualModeBtn" class="mode-btn" title="锁定某根琴弦专门调整">手动选弦</button>
+      </div>
+      
+      <!-- Main mic power switch -->
+      <button id="micToggleBtn" class="mic-toggle-btn" aria-label="开启麦克风调音">
+        <span class="mic-icon-ripple"></span>
+        <span id="micBtnText">启动麦克风</span>
+      </button>
+    </footer>
+
+    <!-- Interactive localized User Guideline Help Panel -->
+    <section class="help-panel" aria-label="使用指南">
+      <h3 class="help-title">💡 调音小秘诀</h3>
+      <div class="help-text">
+        <ol>
+          <li><b>启动调音</b>：点击下方绿色“启动麦克风”按钮，并允许浏览器使用您的麦克风。</li>
+          <li><b>自动锁弦（推荐）</b>：直接弹拨任意琴弦，调音器会自动识别距离最近的琴弦，并在仪表盘中显示音准偏离。</li>
+          <li><b>手动选弦</b>：点击右侧列表中对应的吉他琴弦，可以锁定目标弦；此时也可以直接点击琴弦，调音器会播放高质感吉他泛音，帮助您人耳比对。</li>
+          <li><b>音准判定</b>：当仪表盘指针<b>居中且变为发光绿色</b>时，即代表该弦已调准。指针偏左（青色）表示音偏低 (Flat)，需拧紧琴轴；偏右（橙色）表示音偏高 (Sharp)，需拧松琴轴。</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+
+  <!-- Audio Analysis scripts -->
+  <script src="pitch_detector.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
