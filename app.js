@@ -523,16 +523,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const radius = Math.min(width / 2 - 20, height - 30);
     
     // Select styling theme colors based on pitch correctness
-    let themeColor = "rgba(0, 242, 254, 1)"; // Neon Cyan for general/flat
-    let themeGlow = "rgba(0, 242, 254, 0.4)";
+    let themeColor = "rgba(10, 132, 255, 1)"; // Apple Blue for general/flat
+    let themeGlow = "rgba(10, 132, 255, 0.4)";
     
     if (detectedFreq !== -1) {
       if (Math.abs(smoothedDeviation) <= 3) {
-        themeColor = "rgba(0, 245, 160, 1)"; // Glowing Green in-tune
-        themeGlow = "rgba(0, 245, 160, 0.5)";
+        themeColor = "rgba(52, 199, 89, 1)"; // Apple Green in-tune
+        themeGlow = "rgba(52, 199, 89, 0.5)";
       } else if (smoothedDeviation > 3) {
-        themeColor = "rgba(255, 159, 67, 1)"; // Vibrant Orange for sharp
-        themeGlow = "rgba(255, 159, 67, 0.4)";
+        themeColor = "rgba(255, 159, 10, 1)"; // Apple Orange for sharp
+        themeGlow = "rgba(255, 159, 10, 0.4)";
       }
     }
     
@@ -570,9 +570,9 @@ document.addEventListener("DOMContentLoaded", () => {
       dialCtx.lineWidth = isMajor ? 2.5 : 1.2;
       
       if (isCenter) {
-        dialCtx.strokeStyle = "rgba(0, 245, 160, 0.8)"; // Perfect center mark green
+        dialCtx.strokeStyle = "rgba(52, 199, 89, 0.8)"; // Perfect center mark green
       } else {
-        dialCtx.strokeStyle = isMajor ? "rgba(255, 255, 255, 0.25)" : "rgba(255, 255, 255, 0.1)";
+        dialCtx.strokeStyle = isMajor ? "rgba(255, 255, 255, 0.4)" : "rgba(255, 255, 255, 0.15)";
       }
       dialCtx.stroke();
       
@@ -583,8 +583,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const textX = centerX + textDist * Math.cos(angle);
         const textY = centerY + textDist * Math.sin(angle) + 4;
         
-        dialCtx.fillStyle = isCenter ? "rgba(0, 245, 160, 0.8)" : "rgba(255, 255, 255, 0.3)";
-        dialCtx.font = "9px 'Space Grotesk', monospace";
+        dialCtx.fillStyle = isCenter ? "rgba(52, 199, 89, 0.9)" : "rgba(255, 255, 255, 0.5)";
+        dialCtx.font = "10px -apple-system, sans-serif";
         dialCtx.textAlign = "center";
         dialCtx.fillText(centsVal === 0 ? "0" : (centsVal > 0 ? `+${centsVal}` : centsVal), textX, textY);
       }
@@ -596,8 +596,8 @@ document.addEventListener("DOMContentLoaded", () => {
       dialCtx.beginPath();
       dialCtx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
       dialCtx.fillStyle = "transparent";
-      dialCtx.shadowBlur = 15;
-      dialCtx.shadowColor = themeColor;
+      dialCtx.shadowBlur = 20;
+      dialCtx.shadowColor = themeGlow;
       dialCtx.stroke();
       dialCtx.restore();
     }
@@ -613,9 +613,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dialCtx.beginPath();
     dialCtx.moveTo(centerX, centerY);
     dialCtx.lineTo(needleX, needleY);
-    dialCtx.lineWidth = 3.5;
+    dialCtx.lineWidth = 4;
     dialCtx.lineCap = "round";
-    dialCtx.shadowBlur = 10;
+    dialCtx.shadowBlur = 12;
     dialCtx.shadowColor = themeColor;
     dialCtx.strokeStyle = themeColor;
     dialCtx.stroke();
@@ -624,9 +624,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. Draw central pivot cap
     dialCtx.beginPath();
     dialCtx.arc(centerX, centerY, 8, 0, 2 * Math.PI);
-    dialCtx.fillStyle = "#0f131a";
+    dialCtx.fillStyle = "rgba(255,255,255,0.1)";
     dialCtx.strokeStyle = themeColor;
-    dialCtx.lineWidth = 3;
+    dialCtx.lineWidth = 2.5;
     dialCtx.fill();
     dialCtx.stroke();
     
@@ -654,9 +654,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let x = 0;
     
     const gradient = spectrogramCtx.createLinearGradient(0, height, 0, 0);
-    gradient.addColorStop(0, "rgba(0, 242, 254, 0.05)");
-    gradient.addColorStop(0.5, "rgba(124, 58, 237, 0.25)");
-    gradient.addColorStop(1, "rgba(0, 242, 254, 0.6)");
+    gradient.addColorStop(0, "rgba(255, 255, 255, 0.05)");
+    gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.4)");
+    gradient.addColorStop(1, "rgba(255, 255, 255, 0.9)");
     
     for (let i = 0; i < 50; i++) {
       // Frequency values inside FFT buffer
@@ -667,7 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Draw rounded rectangle bars
       spectrogramCtx.beginPath();
-      spectrogramCtx.roundRect(x, height - barHeight, barWidth - 2, barHeight, [4, 4, 0, 0]);
+      spectrogramCtx.roundRect(x, height - barHeight, barWidth - 1, barHeight, [4, 4, 0, 0]);
       spectrogramCtx.fill();
       
       x += barWidth;
