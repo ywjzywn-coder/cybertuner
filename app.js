@@ -489,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!data) {
       displayNote.textContent = "--";
       displayNote.className = "note-bubble";
-      displayCents.textContent = "0.0 cents";
+      displayCents.textContent = "0.0 音分";
       displayCents.className = "note-cents";
       displayFreq.textContent = "待检测频率: -- Hz";
       appContainer.className = "app-container";
@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (data.inTune) {
       displayNote.className = "note-bubble perfect-pitch";
-      displayCents.textContent = "完美对齐 (In Tune)";
+      displayCents.textContent = "音准完美";
       displayCents.className = "note-cents cents-perfect";
       appContainer.className = "app-container in-tune";
       
@@ -523,11 +523,11 @@ document.addEventListener("DOMContentLoaded", () => {
       
       if (data.deviation < 0) {
         displayNote.className = "note-bubble flat-pitch";
-        displayCents.textContent = `偏低 ${Math.abs(data.deviation).toFixed(1)} 音分 (Flat)`;
+        displayCents.textContent = `偏低 ${Math.abs(data.deviation).toFixed(1)} 音分`;
         displayCents.className = "note-cents cents-flat";
       } else {
         displayNote.className = "note-bubble sharp-pitch";
-        displayCents.textContent = `偏高 ${data.deviation.toFixed(1)} 音分 (Sharp)`;
+        displayCents.textContent = `偏高 ${data.deviation.toFixed(1)} 音分`;
         displayCents.className = "note-cents cents-sharp";
       }
     }
