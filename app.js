@@ -6,6 +6,35 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Theme Toggle Logic
+  const themeSwitch = document.getElementById("checkbox");
+  
+  // Auto-detect system preference initially
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const savedTheme = localStorage.getItem("theme");
+  
+  if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+    if (themeSwitch) themeSwitch.checked = true;
+    document.body.classList.add("dark-theme");
+  } else {
+    document.body.classList.remove("dark-theme");
+    document.body.classList.add("light-theme");
+  }
+
+  if (themeSwitch) {
+    themeSwitch.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        document.body.classList.add("dark-theme");
+        document.body.classList.remove("light-theme");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-theme");
+        document.body.classList.add("light-theme");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  }
+
   // 1. Tuning Presets Definition
   // String numbering in guitar: 6th is thickest (E2), 1st is thinnest (E4)
   const TUNING_PRESETS = [
@@ -105,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const displayNote = document.getElementById("displayNote");
   const displayCents = document.getElementById("displayCents");
   const displayFreq = document.getElementById("displayFreq");
-  const displayTargetPreset = document.getElementById("displayTargetPreset");
+  // const displayTargetPreset = document.getElementById("displayTargetPreset");
   
   const stringsContainer = document.getElementById("stringsContainer");
   
@@ -190,13 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // Play synthesizer guitar chord reference tone
-        playReferenceTone(string.freq, row);
+        playReferenceTone(stringObj.freq, row);
       });
       
       stringsContainer.appendChild(row);
     });
     
-    displayTargetPreset.textContent = preset.name;
+    // if (displayTargetPreset) displayTargetPreset.textContent = preset.name;
   }
 
   // Update actively lock targeted string
@@ -650,6 +679,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const barWidth = (width / 50); // Show lower 50 bin bars (focus on tuning ranges)
     let x = 0;
+    
+    const isDark = document.body.classList.contains("dark-theme");
+    const dimColor = isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)";
+    const highlightColor = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.3)";
     
     const gradient = spectrogramCtx.createLinearGradient(0, height, 0, 0);
     gradient.addColorStop(0, dimColor);

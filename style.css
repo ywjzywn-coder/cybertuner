@@ -18,7 +18,7 @@
   --border-color: #e5e5e5;
   --border-active: #111111;
   
-  --accent-orange: #ff4f00; /* Vibrant Orange from screenshot */
+  --accent-orange: #ff4f00;
   --accent-dark: #2d2d2d;
   --accent-green: #00a651;
   
@@ -32,25 +32,39 @@
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 24px;
-  --transition: 0.2s ease-in-out;
+  --transition: 0.25s ease-in-out;
 }
 
+/* Dark theme via class */
 body.dark-theme {
-  /* Dark Theme Overrides */
   --bg-body: #111111;
   --bg-surface: #1e1e1e;
   --bg-surface-hover: #2a2a2a;
-  
   --text-primary: #f5f5f5;
   --text-secondary: #a0a0a0;
   --text-tertiary: #666666;
-  
   --border-color: #333333;
   --border-active: #f5f5f5;
-  
   --accent-dark: #3a3a3a;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Auto-detect system dark mode (only when no manual override) */
+@media (prefers-color-scheme: dark) {
+  body:not(.light-theme) {
+    --bg-body: #111111;
+    --bg-surface: #1e1e1e;
+    --bg-surface-hover: #2a2a2a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --text-tertiary: #666666;
+    --border-color: #333333;
+    --border-active: #f5f5f5;
+    --accent-dark: #3a3a3a;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
 }
 
 * {
@@ -91,8 +105,8 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  transition: all var(--transition);
+  gap: 24px;
+  transition: background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
 /* ==========================================================================
@@ -103,52 +117,69 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 24px;
+  padding-bottom: 20px;
   border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.logo-icon {
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 .logo-title h1 {
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.5px;
   color: var(--text-primary);
+  white-space: nowrap;
 }
 
 .logo-title span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: block;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 /* Theme Switch & Controls */
 .controls-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
-/* Toggle Switch Styles */
+/* Toggle Switch */
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+}
+
+.theme-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  user-select: none;
 }
 
 .code-icon {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
 }
@@ -156,8 +187,9 @@ header {
 .theme-switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .theme-switch input {
@@ -170,37 +202,32 @@ header {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #e0e0e0;
-  transition: .4s;
+  background-color: #d0d0d0;
+  transition: background-color 0.3s;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: .4s;
-  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 input:checked + .slider {
-  background-color: #444;
+  background-color: #555;
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(18px);
 }
 
-.slider.round {
-  border-radius: 24px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
+.slider.round { border-radius: 22px; }
+.slider.round:before { border-radius: 50%; }
 
 /* Select Dropdown */
 .custom-select-wrapper {
@@ -214,12 +241,13 @@ select.tuning-preset-select {
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 8px 32px 8px 16px;
+  font-size: 11px;
+  padding: 7px 28px 7px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   outline: none;
   transition: all var(--transition);
+  max-width: 180px;
 }
 
 select.tuning-preset-select:hover {
@@ -228,10 +256,10 @@ select.tuning-preset-select:hover {
 
 .custom-select-wrapper::after {
   content: '▾';
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-secondary);
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
@@ -245,7 +273,7 @@ select.tuning-preset-select:hover {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
-  align-items: stretch;
+  align-items: start; /* KEY FIX: prevent right column from stretching */
 }
 
 .card-title-sm {
@@ -271,7 +299,7 @@ select.tuning-preset-select:hover {
   align-items: flex-start;
   position: relative;
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition);
+  transition: background-color var(--transition), border-color var(--transition);
 }
 
 .dial-container {
@@ -295,7 +323,7 @@ select.tuning-preset-select:hover {
 /* Central Pitch Information Output */
 .pitch-info-display {
   text-align: left;
-  margin-top: 24px;
+  margin-top: 20px;
   width: 100%;
 }
 
@@ -307,8 +335,8 @@ select.tuning-preset-select:hover {
 
 .note-bubble {
   font-family: var(--font-mono);
-  font-size: 64px;
-  font-weight: 400;
+  font-size: 56px;
+  font-weight: 500;
   line-height: 1;
   color: var(--text-primary);
   letter-spacing: -2px;
@@ -319,7 +347,7 @@ select.tuning-preset-select:hover {
 
 .note-cents {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-secondary);
 }
 
@@ -329,17 +357,17 @@ select.tuning-preset-select:hover {
 
 .frequency-reading {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-tertiary);
-  margin-top: 8px;
+  margin-top: 6px;
   display: block;
 }
 
-/* Realtime Bottom Spectrogram Wave Visualizer */
+/* Spectrogram */
 .spectrogram-container {
   width: 100%;
   height: 48px;
-  margin-top: 24px;
+  margin-top: 20px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--bg-surface-hover);
@@ -353,7 +381,7 @@ select.tuning-preset-select:hover {
 }
 
 /* ==========================================================================
-   Right Column: Pegboard & Guitar strings
+   Right Column: Guitar Strings as Cards
    ========================================================================== */
 
 .guitar-neck-visual {
@@ -361,24 +389,23 @@ select.tuning-preset-select:hover {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  flex-grow: 1;
 }
 
 .guitar-strings-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
-/* String Rows as Square Cards (Like the Voice/Vibe cards) */
+/* String Card */
 .guitar-string-row {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 16px;
-  height: 90px;
+  padding: 14px;
+  min-height: 80px;
   border-radius: var(--radius-sm);
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -397,15 +424,15 @@ select.tuning-preset-select:hover {
   box-shadow: 0 0 0 1px var(--border-active);
 }
 
-/* The small indicator dot */
+/* Indicator dot */
 .string-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background-color: var(--border-color);
   position: absolute;
-  bottom: 16px;
-  left: 16px;
+  bottom: 14px;
+  left: 14px;
   transition: background-color var(--transition);
 }
 
@@ -425,14 +452,12 @@ select.tuning-preset-select:hover {
   color: var(--text-primary);
 }
 
-.string-number {
-  display: none; /* Hide for cleaner look */
-}
+.string-number { display: none; }
 
 .string-info-text {
   position: absolute;
-  bottom: 14px;
-  right: 16px;
+  bottom: 12px;
+  right: 14px;
 }
 
 .string-target-freq {
@@ -452,17 +477,16 @@ select.tuning-preset-select:hover {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.secondary-actions {
-  display: flex;
   gap: 12px;
-  flex: 1;
 }
 
-/* Regular Buttons */
+/* Mode Toggle Group */
+.mode-toggle-group {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .mode-btn {
   background: var(--accent-dark);
   border: none;
@@ -470,19 +494,15 @@ select.tuning-preset-select:hover {
   font-size: 13px;
   font-weight: 500;
   color: #fff;
-  padding: 16px 24px;
+  padding: 14px 20px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex: 1;
+  white-space: nowrap;
 }
 
 .mode-btn:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .mode-btn.active {
@@ -491,7 +511,7 @@ select.tuning-preset-select:hover {
 
 /* Primary Orange Button */
 .mic-toggle-btn {
-  flex: 1.5;
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -501,8 +521,8 @@ select.tuning-preset-select:hover {
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: 1px;
-  padding: 16px 32px;
+  letter-spacing: 0.5px;
+  padding: 14px 24px;
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
@@ -525,7 +545,7 @@ select.tuning-preset-select:hover {
   border-left: 6px solid #fff;
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
-  margin-right: 4px;
+  margin-right: 2px;
 }
 
 .mic-toggle-btn.listening .mic-icon-ripple {
@@ -536,12 +556,9 @@ select.tuning-preset-select:hover {
   border-radius: 2px;
 }
 
-/* ==========================================================================
-   Help Box Details
-   ========================================================================== */
-
+/* Help Panel */
 .help-panel {
-  display: none; /* Hide help panel to match minimalist look */
+  display: none;
 }
 
 /* ==========================================================================
@@ -549,10 +566,93 @@ select.tuning-preset-select:hover {
    ========================================================================== */
 
 @media (max-width: 768px) {
-  .app-container { padding: 20px; border-radius: var(--radius-md); }
-  .tuner-grid { grid-template-columns: 1fr; }
-  .guitar-strings-board { grid-template-columns: repeat(2, 1fr); }
-  .action-bar { flex-direction: column; }
-  .secondary-actions { width: 100%; }
-  .mic-toggle-btn { width: 100%; }
+  body {
+    padding: 12px;
+  }
+
+  .app-container {
+    padding: 16px;
+    border-radius: var(--radius-md);
+    gap: 16px;
+  }
+
+  /* Header: stack vertically on mobile */
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding-bottom: 16px;
+  }
+
+  .logo-section {
+    gap: 10px;
+  }
+
+  .logo-title h1 {
+    font-size: 16px;
+  }
+
+  .controls-header {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Select dropdown: constrain width on mobile */
+  select.tuning-preset-select {
+    max-width: 100%;
+    font-size: 11px;
+    padding: 7px 24px 7px 8px;
+  }
+
+  /* Stack tuner grid vertically */
+  .tuner-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .visualizer-card, .instrument-card {
+    padding: 16px;
+  }
+
+  .note-bubble {
+    font-size: 48px;
+  }
+
+  /* 2-column guitar strings on mobile */
+  .guitar-strings-board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .guitar-string-row {
+    padding: 12px;
+    min-height: 70px;
+  }
+
+  /* Footer buttons: stack */
+  .action-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mode-toggle-group {
+    width: 100%;
+  }
+
+  .mode-btn {
+    flex: 1;
+    padding: 12px 16px;
+    text-align: center;
+  }
+
+  .mic-toggle-btn {
+    width: 100%;
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .guitar-strings-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
