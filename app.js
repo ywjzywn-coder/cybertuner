@@ -165,21 +165,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const preset = TUNING_PRESETS[currentPresetIdx];
     
     // Map E4 to E2 in correct UI order (index 0 is string 1 (thinnest E4) at the top, index 5 is string 6 (thickest E2) at the bottom)
-    preset.strings.forEach((string, idx) => {
+    preset.strings.forEach((stringObj, idx) => {
       const row = document.createElement("div");
-      row.className = `guitar-string-row string-row-${6 - idx}`;
-      if (idx === activeStringIdx) {
-        row.classList.add("active");
-      }
+      row.className = `guitar-string-row string-row-${stringObj.label}`;
+      row.dataset.note = stringObj.note;
       
       row.innerHTML = `
-        <div class="peg-label-left">${string.note}</div>
-        <span class="string-number">${string.label}弦</span>
-        <div class="string-wire"></div>
+        <div class="string-dot"></div>
+        <div class="peg-label-left">${stringObj.note}</div>
         <div class="string-info-text">
-          <span class="string-target-freq">${string.freq.toFixed(1)} Hz</span>
+          <span class="string-target-freq">${stringObj.freq} Hz</span>
         </div>
-        <div class="peg-knob"></div>
       `;
       
       // Interaction handlers
@@ -522,14 +518,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const centerY = height - 15;
     const radius = Math.min(width / 2 - 20, height - 30);
     
+    const isDark = document.body.classList.contains("dark-theme");
+    
     // Select styling theme colors based on pitch correctness
-    let themeColor = "rgba(142, 142, 160, 1)"; // OpenAI Gray for general/flat
+    let themeColor = isDark ? "#f5f5f5" : "#111111"; // Default (Flat/General)
+    const activeColor = "#ff4f00"; // Orange Accent
+    const successColor = "#00a651"; // Green Accent
+    const dimColor = isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)";
+    const highlightColor = isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.3)";
+    const bgColor = isDark ? "#1e1e1e" : "#ffffff";
     
     if (detectedFreq !== -1) {
       if (Math.abs(smoothedDeviation) <= 3) {
-        themeColor = "rgba(16, 163, 127, 1)"; // OpenAI Green in-tune
-      } else if (smoothedDeviation > 3) {
-        themeColor = "rgba(239, 65, 70, 1)"; // OpenAI Red for sharp
+        themeColor = activeColor;
+      } else {
+        themeColor = isDark ? "#aaaaaa" : "#888888";
       }
     }
     
@@ -567,9 +570,9 @@ document.addEventListener("DOMContentLoaded", () => {
       dialCtx.lineWidth = isMajor ? 2.5 : 1.2;
       
       if (isCenter) {
-        dialCtx.strokeStyle = "rgba(16, 163, 127, 1)"; // OpenAI Green
+        dialCtx.strokeStyle = successColor;
       } else {
-        dialCtx.strokeStyle = isMajor ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.05)";
+        dialCtx.strokeStyle = isMajor ? highlightColor : dimColor;
       }
       dialCtx.stroke();
       
@@ -580,20 +583,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const textX = centerX + textDist * Math.cos(angle);
         const textY = centerY + textDist * Math.sin(angle) + 4;
         
-        dialCtx.fillStyle = isCenter ? "rgba(16, 163, 127, 1)" : "rgba(142, 142, 160, 1)";
-        dialCtx.font = "10px 'JetBrains Mono', 'Roboto Mono', monospace";
+        dialCtx.fillStyle = isCenter ? successColor : (isDark ? "#999999" : "#666666");
+        dialCtx.font = "10px 'IBM Plex Mono', monospace";
         dialCtx.textAlign = "center";
         dialCtx.fillText(centsVal === 0 ? "0" : (centsVal > 0 ? `+${centsVal}` : centsVal), textX, textY);
       }
     }
     
-    // 4. Draw safety background sector (No halo glow for OpenAI style)
+    // 4. Draw safety background sector
     if (detectedFreq !== -1) {
       dialCtx.save();
       dialCtx.beginPath();
       dialCtx.arc(centerX, centerY, radius, Math.PI, 2 * Math.PI);
       dialCtx.fillStyle = "transparent";
-      dialCtx.strokeStyle = "rgba(255, 255, 255, 0.02)";
+      dialCtx.strokeStyle = dimColor;
       dialCtx.stroke();
       dialCtx.restore();
     }
@@ -618,8 +621,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 6. Draw central pivot cap
     dialCtx.beginPath();
-    dialCtx.arc(centerX, centerY, 4, 0, 2 * Math.PI); // Smaller pivot
-    dialCtx.fillStyle = "rgba(255,255,255,1)";
+    dialCtx.arc(centerX, centerY, 6, 0, 2 * Math.PI);
+    dialCtx.fillStyle = isDark ? "#ffffff" : "#111111";
     dialCtx.strokeStyle = "transparent";
     dialCtx.lineWidth = 0;
     dialCtx.fill();
@@ -649,9 +652,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let x = 0;
     
     const gradient = spectrogramCtx.createLinearGradient(0, height, 0, 0);
-    gradient.addColorStop(0, "rgba(255, 255, 255, 0.05)");
-    gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.2)");
-    gradient.addColorStop(1, "rgba(255, 255, 255, 0.5)");
+    gradient.addColorStop(0, dimColor);
+    gradient.addColorStop(0.5, highlightColor);
+    gradient.addColorStop(1, isDark ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.5)");
     
     for (let i = 0; i < 50; i++) {
       // Frequency values inside FFT buffer

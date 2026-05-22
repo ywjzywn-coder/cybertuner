@@ -1,38 +1,56 @@
 /* ==========================================================================
-   CyberTuner - CSS Design System (OpenAI Minimalist Aesthetic)
-   Theme: Pure Black, High Contrast, #10a37f Accent, Inter Font
+   CyberTuner - CSS Design System (openai.fm style + Light/Dark Mode)
+   Theme: Monospace, Flat Cards, High Contrast, Orange Accent
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  /* OpenAI Signature Palette */
-  --oa-black: #000000;
-  --oa-dark: #202123;
-  --oa-gray-dark: #343541;
-  --oa-gray: #40414f;
-  --oa-border: rgba(255, 255, 255, 0.1);
-  --oa-border-hover: rgba(255, 255, 255, 0.25);
+  /* Light Theme (Default) */
+  --bg-body: #f7f7f5;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f0f0f0;
   
-  --oa-text-primary: #ececec;
-  --oa-text-secondary: #8e8ea0;
-  --oa-text-tertiary: #565869;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
   
-  --oa-green: #10a37f;
-  --oa-green-hover: #1a7f64;
-  --oa-red: #ef4146;
-  --oa-blue: #2b70c9;
+  --border-color: #e5e5e5;
+  --border-active: #111111;
+  
+  --accent-orange: #ff4f00; /* Vibrant Orange from screenshot */
+  --accent-dark: #2d2d2d;
+  --accent-green: #00a651;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Layout */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --transition: 0.2s ease-in-out;
+}
+
+body.dark-theme {
+  /* Dark Theme Overrides */
+  --bg-body: #111111;
+  --bg-surface: #1e1e1e;
+  --bg-surface-hover: #2a2a2a;
   
-  --transition-fast: 0.15s ease;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  
+  --border-color: #333333;
+  --border-active: #f5f5f5;
+  
+  --accent-dark: #3a3a3a;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -44,8 +62,8 @@
 }
 
 body {
-  background-color: var(--oa-black);
-  color: var(--oa-text-primary);
+  background-color: var(--bg-body);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 400;
   min-height: 100vh;
@@ -55,6 +73,7 @@ body {
   align-items: center;
   overflow-x: hidden;
   padding: 24px;
+  transition: background-color var(--transition), color var(--transition);
 }
 
 /* ==========================================================================
@@ -63,16 +82,17 @@ body {
 
 .app-container {
   width: 100%;
-  max-width: 900px;
-  background: var(--oa-black);
-  border: 1px solid var(--oa-border);
+  max-width: 1000px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 32px 40px;
+  box-shadow: var(--shadow-md);
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 32px;
+  transition: all var(--transition);
 }
 
 /* ==========================================================================
@@ -82,9 +102,9 @@ body {
 header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--oa-border);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .logo-section {
@@ -93,39 +113,96 @@ header {
   gap: 16px;
 }
 
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--oa-text-primary);
-  color: var(--oa-black);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
 .logo-title h1 {
-  font-size: 18px;
+  font-family: var(--font-mono);
+  font-size: 20px;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--oa-text-primary);
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
 }
 
 .logo-title span {
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 400;
-  color: var(--oa-text-secondary);
-  margin-top: 2px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   display: block;
+  margin-top: 4px;
 }
 
-/* Presets Select (Minimalist Dropdown) */
+/* Theme Switch & Controls */
 .controls-header {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
+/* Toggle Switch Styles */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code-icon {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e0e0e0;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  box-shadow: var(--shadow-sm);
+}
+
+input:checked + .slider {
+  background-color: #444;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Select Dropdown */
 .custom-select-wrapper {
   position: relative;
 }
@@ -133,27 +210,26 @@ header {
 select.tuning-preset-select {
   appearance: none;
   -webkit-appearance: none;
-  background: var(--oa-dark);
-  border: 1px solid var(--oa-border);
-  color: var(--oa-text-primary);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  padding: 8px 32px 8px 12px;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 8px 32px 8px 16px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   outline: none;
-  transition: all var(--transition-fast);
+  transition: all var(--transition);
 }
 
 select.tuning-preset-select:hover {
-  border-color: var(--oa-border-hover);
-  background: var(--oa-gray-dark);
+  border-color: var(--border-active);
 }
 
 .custom-select-wrapper::after {
   content: '▾';
   font-size: 12px;
-  color: var(--oa-text-secondary);
+  color: var(--text-secondary);
   position: absolute;
   right: 12px;
   top: 50%;
@@ -167,21 +243,35 @@ select.tuning-preset-select:hover {
 
 .tuner-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 32px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
   align-items: stretch;
 }
 
-/* Minimalist Cards */
+.card-title-sm {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-align: left;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+/* Flat Cards */
 .visualizer-card, .instrument-card {
-  background: var(--oa-dark);
-  border: 1px solid var(--oa-border);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
 }
 
 .dial-container {
@@ -191,6 +281,9 @@ select.tuning-preset-select:hover {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  background: var(--bg-surface-hover);
+  border-radius: var(--radius-sm);
+  padding: 16px;
 }
 
 #dialCanvas {
@@ -201,49 +294,45 @@ select.tuning-preset-select:hover {
 
 /* Central Pitch Information Output */
 .pitch-info-display {
-  text-align: center;
+  text-align: left;
   margin-top: 24px;
   width: 100%;
-  z-index: 2;
 }
 
 .note-bubble-wrapper {
   display: flex;
-  justify-content: center;
   align-items: baseline;
-  margin-bottom: 4px;
-  gap: 8px;
+  gap: 12px;
 }
 
-/* Display Typography */
 .note-bubble {
-  font-size: 80px;
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: 64px;
+  font-weight: 400;
   line-height: 1;
-  color: var(--oa-text-primary);
-  letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
-  transition: color var(--transition-fast);
+  color: var(--text-primary);
+  letter-spacing: -2px;
+  transition: color var(--transition);
 }
 
-.note-bubble.perfect-pitch { color: var(--oa-green); }
+.note-bubble.perfect-pitch { color: var(--accent-orange); }
 
 .note-cents {
-  font-size: 14px;
   font-family: var(--font-mono);
-  color: var(--oa-text-secondary);
+  font-size: 16px;
+  color: var(--text-secondary);
 }
 
-.note-cents.cents-flat { color: var(--oa-text-secondary); }
-.note-cents.cents-sharp { color: var(--oa-red); }
-.note-cents.cents-perfect { color: var(--oa-green); }
+.note-cents.cents-flat { color: var(--text-secondary); }
+.note-cents.cents-sharp { color: var(--text-secondary); }
+.note-cents.cents-perfect { color: var(--accent-orange); }
 
 .frequency-reading {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--oa-text-tertiary);
-  margin-top: 12px;
-  display: inline-block;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  display: block;
 }
 
 /* Realtime Bottom Spectrogram Wave Visualizer */
@@ -251,9 +340,10 @@ select.tuning-preset-select:hover {
   width: 100%;
   height: 48px;
   margin-top: 24px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  background: transparent;
-  border-bottom: 1px solid var(--oa-border);
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
 }
 
 #spectrogramCanvas {
@@ -266,20 +356,6 @@ select.tuning-preset-select:hover {
    Right Column: Pegboard & Guitar strings
    ========================================================================== */
 
-.card-title-sm {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--oa-text-secondary);
-  margin-bottom: 24px;
-  text-align: left;
-  text-transform: uppercase;
-  width: 100%;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--oa-border);
-}
-
-/* Stylized Visual Guitar Neck Headstock */
 .guitar-neck-visual {
   display: flex;
   flex-direction: column;
@@ -289,134 +365,84 @@ select.tuning-preset-select:hover {
 }
 
 .guitar-strings-board {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   width: 100%;
-  position: relative;
 }
 
-/* Minimalist String Rows */
+/* String Rows as Square Cards (Like the Voice/Vibe cards) */
 .guitar-string-row {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  width: 100%;
-  padding: 10px 12px;
+  padding: 16px;
+  height: 90px;
   border-radius: var(--radius-sm);
-  background: transparent;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition);
   position: relative;
-  border: 1px solid transparent;
 }
 
 .guitar-string-row:hover {
-  background: var(--oa-gray-dark);
+  background: var(--bg-surface-hover);
+  border-color: var(--border-active);
 }
 
 .guitar-string-row.active {
-  background: var(--oa-gray-dark);
-  border-color: var(--oa-border);
+  border-color: var(--border-active);
+  box-shadow: 0 0 0 1px var(--border-active);
 }
 
-.guitar-string-row.in-tune {
-  border-color: var(--oa-green);
-}
-
-/* Virtual String Wire Visual */
-.string-wire {
+/* The small indicator dot */
+.string-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--border-color);
   position: absolute;
-  left: 40px;
-  right: 40px;
-  height: 1px;
-  background: var(--oa-border);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-  pointer-events: none;
+  bottom: 16px;
+  left: 16px;
+  transition: background-color var(--transition);
 }
 
-@keyframes stringVibrate {
-  0% { transform: translateY(-50%) translateY(0); }
-  25% { transform: translateY(-50%) translateY(-1px); }
-  50% { transform: translateY(-50%) translateY(1px); }
-  75% { transform: translateY(-50%) translateY(-0.5px); }
-  100% { transform: translateY(-50%) translateY(0); }
+.guitar-string-row.active .string-dot {
+  background-color: var(--accent-orange);
 }
 
-.guitar-string-row.playing .string-wire {
-  animation: stringVibrate 0.05s linear infinite;
-  background: var(--oa-text-primary);
+.guitar-string-row.in-tune .string-dot {
+  background-color: var(--accent-green);
 }
 
-.guitar-string-row.playing.in-tune .string-wire {
-  background: var(--oa-green);
-}
-
-/* Interactive Peg Labels */
+/* Peg Labels */
 .peg-label-left {
   font-family: var(--font-mono);
-  font-size: 13px;
-  width: 28px;
-  height: 28px;
-  color: var(--oa-text-secondary);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  transition: all var(--transition-fast);
-  background: var(--oa-black);
-  border: 1px solid var(--oa-border);
-}
-
-.guitar-string-row.active .peg-label-left {
-  color: var(--oa-text-primary);
-  border-color: var(--oa-text-primary);
-}
-
-.guitar-string-row.in-tune .peg-label-left {
-  color: var(--oa-green);
-  border-color: var(--oa-green);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .string-number {
-  font-size: 12px;
-  color: var(--oa-text-tertiary);
-  z-index: 2;
+  display: none; /* Hide for cleaner look */
 }
 
 .string-info-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  z-index: 2;
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
 }
 
 .string-target-freq {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--oa-text-tertiary);
+  font-size: 10px;
+  color: var(--text-tertiary);
 }
 
-/* Peg Knob */
-.peg-knob {
-  width: 4px;
-  height: 16px;
-  background: var(--oa-text-tertiary);
-  border-radius: 2px;
-  z-index: 2;
-}
-
-.guitar-string-row.active .peg-knob {
-  background: var(--oa-text-primary);
-}
-
-.guitar-string-row.in-tune .peg-knob {
-  background: var(--oa-green);
-}
+.string-wire { display: none; }
+.peg-knob { display: none; }
 
 /* ==========================================================================
    Footer Control Actions Panel
@@ -425,83 +451,97 @@ select.tuning-preset-select:hover {
 .action-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-top: 16px;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 16px;
 }
 
-/* Segmented Button */
-.mode-toggle-group {
+.secondary-actions {
   display: flex;
-  background: var(--oa-dark);
-  border: 1px solid var(--oa-border);
-  border-radius: var(--radius-sm);
-  padding: 2px;
+  gap: 12px;
+  flex: 1;
 }
 
+/* Regular Buttons */
 .mode-btn {
-  background: transparent;
+  background: var(--accent-dark);
   border: none;
   font-family: var(--font-sans);
   font-size: 13px;
-  color: var(--oa-text-secondary);
-  padding: 6px 16px;
+  font-weight: 500;
+  color: #fff;
+  padding: 16px 24px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.mode-btn:hover {
+  opacity: 0.9;
 }
 
 .mode-btn.active {
-  background: var(--oa-gray-dark);
-  color: var(--oa-text-primary);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background: var(--text-secondary);
 }
 
-.mode-btn:not(.active):hover {
-  color: var(--oa-text-primary);
-}
-
-/* OpenAI Style Primary Button */
+/* Primary Orange Button */
 .mic-toggle-btn {
+  flex: 1.5;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--oa-green);
+  background: var(--accent-orange);
   color: #fff;
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 500;
-  padding: 10px 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 16px 32px;
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition: all var(--transition);
+  text-transform: uppercase;
 }
 
 .mic-toggle-btn:hover {
-  background: var(--oa-green-hover);
+  background: #e64700;
 }
 
 .mic-toggle-btn.listening {
-  background: var(--oa-gray-dark);
-  color: var(--oa-text-primary);
-  border: 1px solid var(--oa-border);
-}
-
-.mic-toggle-btn.listening:hover {
-  background: var(--oa-gray);
+  background: var(--accent-dark);
 }
 
 .mic-icon-ripple {
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
+  width: 0;
+  height: 0;
+  border-left: 6px solid #fff;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  margin-right: 4px;
 }
 
 .mic-toggle-btn.listening .mic-icon-ripple {
-  background: var(--oa-red);
+  width: 10px;
+  height: 10px;
+  background: var(--accent-orange);
+  border: none;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Help Box Details
+   ========================================================================== */
+
+.help-panel {
+  display: none; /* Hide help panel to match minimalist look */
 }
 
 /* ==========================================================================
@@ -509,24 +549,10 @@ select.tuning-preset-select:hover {
    ========================================================================== */
 
 @media (max-width: 768px) {
-  body { padding: 12px; }
-  .app-container {
-    padding: 20px;
-    gap: 24px;
-  }
-  header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .controls-header { width: 100%; justify-content: space-between; }
-  .tuner-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .action-bar {
-    flex-direction: column-reverse;
-    gap: 24px;
-    align-items: stretch;
-  }
+  .app-container { padding: 20px; border-radius: var(--radius-md); }
+  .tuner-grid { grid-template-columns: 1fr; }
+  .guitar-strings-board { grid-template-columns: repeat(2, 1fr); }
+  .action-bar { flex-direction: column; }
+  .secondary-actions { width: 100%; }
+  .mic-toggle-btn { width: 100%; }
 }
