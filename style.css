@@ -273,7 +273,7 @@ select.tuning-preset-select:hover {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
-  align-items: start; /* KEY FIX: prevent right column from stretching */
+  align-items: stretch; /* Stretch to let right column fill vertical space */
 }
 
 .card-title-sm {
@@ -468,6 +468,61 @@ select.tuning-preset-select:hover {
 
 .string-wire { display: none; }
 .peg-knob { display: none; }
+
+/* ==========================================================================
+   Console Log Panel (Fills empty space on right)
+   ========================================================================== */
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.console-card {
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Stretch to fill remaining height */
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+  transition: all var(--transition);
+}
+
+body.dark-theme .console-card {
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.console-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.console-title {
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-tertiary);
+}
+
+.prompt { color: var(--accent-orange); margin-right: 6px; font-weight: bold; }
+.cmd { color: var(--text-primary); font-weight: 500; }
+.log-line { margin-top: 4px; padding-left: 16px; }
+.log-line.success { color: var(--accent-green); }
+.log-line.info { color: var(--text-secondary); }
+.log-muted { color: var(--text-tertiary); margin-top: 4px; }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.log-cursor { display: inline-block; width: 8px; animation: blink 1s step-end infinite; color: var(--accent-orange); margin-top: 8px; font-weight: bold; }
 
 /* ==========================================================================
    Footer Control Actions Panel

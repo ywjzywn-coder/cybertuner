@@ -65,15 +65,36 @@
       </section>
 
       <!-- Right Column: Interactive Guitar Pegboard & Strings selection -->
-      <section class="instrument-card" aria-label="吉他琴头琴弦控制板">
-        <h2 class="card-title-sm">虚拟吉他琴弦 (点击发音)</h2>
-        
-        <div class="guitar-neck-visual">
-          <div id="stringsContainer" class="guitar-strings-board">
-            <!-- Dynamically populated 6 guitar strings with pegs -->
+      <div class="right-column">
+        <section class="instrument-card" aria-label="吉他琴头琴弦控制板">
+          <h2 class="card-title-sm">虚拟吉他琴弦 (点击发音)</h2>
+          
+          <div class="guitar-neck-visual">
+            <div id="stringsContainer" class="guitar-strings-board">
+              <!-- Dynamically populated 6 guitar strings with pegs -->
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <!-- New Terminal/Console Card to fill space -->
+        <section class="console-card" aria-label="系统状态终端">
+          <div class="console-header">
+            <span class="console-title">SYSTEM.LOG</span>
+          </div>
+          <div class="console-body">
+            <p><span class="prompt">➜</span> <span class="cmd">cybertuner --status</span></p>
+            <p class="log-line success">✔ Audio DSP Engine Ready</p>
+            <p class="log-line info">ℹ Precision: ±0.1 cents</p>
+            <p class="log-line info">ℹ Latency: &lt; 10ms</p>
+            <br>
+            <p><span class="prompt">➜</span> <span class="cmd">cat guide.txt</span></p>
+            <p class="log-muted">1. Click "START MIC" below</p>
+            <p class="log-muted">2. Pluck a string on your guitar</p>
+            <p class="log-muted">3. Tune until needle is GREEN</p>
+            <p class="log-cursor">_</p>
+          </div>
+        </section>
+      </div>
 
     </main>
 
