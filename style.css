@@ -502,27 +502,62 @@ body.dark-theme .console-card {
 
 .console-header {
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 12px;
+  padding-bottom: 16px;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
 }
 
 .console-title {
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
   letter-spacing: 1px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
+  text-transform: uppercase;
 }
 
-.prompt { color: var(--accent-orange); margin-right: 6px; font-weight: bold; }
-.cmd { color: var(--text-primary); font-weight: 500; }
-.log-line { margin-top: 4px; padding-left: 16px; }
-.log-line.success { color: var(--accent-green); }
-.log-line.info { color: var(--text-secondary); }
-.log-muted { color: var(--text-tertiary); margin-top: 4px; }
+.console-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.log-cursor { display: inline-block; width: 8px; animation: blink 1s step-end infinite; color: var(--accent-orange); margin-top: 8px; font-weight: bold; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.info-label {
+  color: var(--text-secondary);
+}
+
+.info-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.info-value.green {
+  color: var(--accent-green);
+}
+
+.guide-text {
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.guide-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
 
 /* ==========================================================================
    Footer Control Actions Panel
